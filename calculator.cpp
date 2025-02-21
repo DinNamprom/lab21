@@ -72,7 +72,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
             CreateWindow("BUTTON", "+", WS_VISIBLE | WS_CHILD, 25, 110, 40, 30, hwnd, (HMENU) 1, NULL, NULL);
             CreateWindow("BUTTON", "-", WS_VISIBLE | WS_CHILD, 75, 110, 40, 30, hwnd, (HMENU) 2, NULL, NULL);
-            CreateWindow("BUTTON", "", WS_VISIBLE | WS_CHILD, 125, 110, 40, 30, hwnd, (HMENU) 3, NULL, NULL);
+            CreateWindow("BUTTON", "*", WS_VISIBLE | WS_CHILD, 125, 110, 40, 30, hwnd, (HMENU) 3, NULL, NULL);
             CreateWindow("BUTTON", "/", WS_VISIBLE | WS_CHILD, 175, 110, 40, 30, hwnd, (HMENU) 4, NULL, NULL);
             break;
             
