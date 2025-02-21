@@ -16,12 +16,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.lpfnWndProc = WndProc;
     wc.hInstance = hInstance;
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wc.hbrBackground = CreateSolidBrush(RGB(179, 0, 0));
     wc.lpszClassName = "Calculator";
 
     if (!RegisterClass(&wc)) return 0;
 
-    HWND hwnd = CreateWindow("Calculator", "Simple Calculator", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 300, 200, NULL, NULL, hInstance, NULL);
+    HWND hwnd = CreateWindow("Calculator", "My Calculator",WS_SYSMENU | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 250, 200, NULL, NULL, hInstance, NULL);
     if (!hwnd) return 0;
 
     ShowWindow(hwnd, nCmdShow);
@@ -43,13 +43,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
     switch (msg) {
         case WM_CREATE:
-            hEdit1 = CreateWindow("EDIT", "", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 20, 20, 100, 20, hwnd, (HMENU)ID_EDIT1, NULL, NULL);
-            hEdit2 = CreateWindow("EDIT", "", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 150, 20, 100, 20, hwnd, (HMENU)ID_EDIT2, NULL, NULL);
+            hEdit1 = CreateWindow("EDIT", "", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 10, 20, 100, 20, hwnd, (HMENU)ID_EDIT1, NULL, NULL);
+            hEdit2 = CreateWindow("EDIT", "", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 130, 20, 100, 20, hwnd, (HMENU)ID_EDIT2, NULL, NULL);
             
-            hBtnAdd = CreateWindow("BUTTON", "+", WS_CHILD | WS_VISIBLE, 20, 60, 50, 30, hwnd, (HMENU)ID_ADD, NULL, NULL);
-            hBtnSub = CreateWindow("BUTTON", "-", WS_CHILD | WS_VISIBLE, 80, 60, 50, 30, hwnd, (HMENU)ID_SUB, NULL, NULL);
-            hBtnMul = CreateWindow("BUTTON", "*", WS_CHILD | WS_VISIBLE, 140, 60, 50, 30, hwnd, (HMENU)ID_MUL, NULL, NULL);
-            hBtnDiv = CreateWindow("BUTTON", "/", WS_CHILD | WS_VISIBLE, 200, 60, 50, 30, hwnd, (HMENU)ID_DIV, NULL, NULL);
+            hBtnAdd = CreateWindow("BUTTON", "+", WS_CHILD | WS_VISIBLE, 10, 60, 50, 30, hwnd, (HMENU)ID_ADD, NULL, NULL);
+            hBtnSub = CreateWindow("BUTTON", "-", WS_CHILD | WS_VISIBLE, 70, 60, 50, 30, hwnd, (HMENU)ID_SUB, NULL, NULL);
+            hBtnMul = CreateWindow("BUTTON", "*", WS_CHILD | WS_VISIBLE, 130, 60, 50, 30, hwnd, (HMENU)ID_MUL, NULL, NULL);
+            hBtnDiv = CreateWindow("BUTTON", "/", WS_CHILD | WS_VISIBLE, 190, 60, 50, 30, hwnd, (HMENU)ID_DIV, NULL, NULL);
             
             hResult = CreateWindow("STATIC", "Result: ", WS_CHILD | WS_VISIBLE, 20, 110, 200, 20, hwnd, (HMENU)ID_RESULT, NULL, NULL);
             break;
