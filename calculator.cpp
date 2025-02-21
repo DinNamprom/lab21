@@ -9,6 +9,29 @@
 #define ID_MUL 6
 #define ID_DIV 7
 
+HWND hwndEdit1, hwndEdit2;
+
+void CalculateAndShowResult(char op) {
+    char buffer1[256], buffer2[256];
+    GetWindowText(hwndEdit1, buffer1, 256);
+    GetWindowText(hwndEdit2, buffer2, 256);
+
+    double num1 = atof(buffer1);
+    double num2 = atof(buffer2);
+    double result = 0;
+
+    switch (op) {
+        case '+': result = num1 + num2; break;
+        case '-': result = num1 - num2; break;
+        case '*': result = num1 * num2; break;
+        case '/': result = (num2 != 0) ? num1 / num2 : 0; break;
+    }
+
+    char resultStr[256];
+    sprintf(resultStr, "%.2f", result);
+    MessageBox(NULL, resultStr, "Result", MB_OK);
+}
+
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
@@ -43,45 +66,24 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
     switch (msg) {
         case WM_CREATE:
-            hEdit1 = CreateWindow("EDIT", "", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 10, 20, 100, 20, hwnd, (HMENU)ID_EDIT1, NULL, NULL);
-            hEdit2 = CreateWindow("EDIT", "", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 130, 20, 100, 20, hwnd, (HMENU)ID_EDIT2, NULL, NULL);
-            
-            hBtnAdd = CreateWindow("BUTTON", "+", WS_CHILD | WS_VISIBLE, 10, 60, 50, 30, hwnd, (HMENU)ID_ADD, NULL, NULL);
-            hBtnSub = CreateWindow("BUTTON", "-", WS_CHILD | WS_VISIBLE, 70, 60, 50, 30, hwnd, (HMENU)ID_SUB, NULL, NULL);
-            hBtnMul = CreateWindow("BUTTON", "*", WS_CHILD | WS_VISIBLE, 130, 60, 50, 30, hwnd, (HMENU)ID_MUL, NULL, NULL);
-            hBtnDiv = CreateWindow("BUTTON", "/", WS_CHILD | WS_VISIBLE, 190, 60, 50, 30, hwnd, (HMENU)ID_DIV, NULL, NULL);
-            
-            hResult = CreateWindow("STATIC", "Result: ", WS_CHILD | WS_VISIBLE, 20, 110, 200, 20, hwnd, (HMENU)ID_RESULT, NULL, NULL);
+            CreateWindow("STATIC", "Please input two numbers", WS_VISIBLE | WS_CHILD, 25, 20, 200, 20, hwnd, NULL, NULL, NULL);
+            hwndEdit1 = CreateWindow("EDIT", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, 25, 50, 200, 20, hwnd, NULL, NULL, NULL);
+            hwndEdit2 = CreateWindow("EDIT", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, 25, 80, 200, 20, hwnd, NULL, NULL, NULL);
+
+            CreateWindow("BUTTON", "+", WS_VISIBLE | WS_CHILD, 25, 110, 40, 30, hwnd, (HMENU) 1, NULL, NULL);
+            CreateWindow("BUTTON", "-", WS_VISIBLE | WS_CHILD, 75, 110, 40, 30, hwnd, (HMENU) 2, NULL, NULL);
+            CreateWindow("BUTTON", "", WS_VISIBLE | WS_CHILD, 125, 110, 40, 30, hwnd, (HMENU) 3, NULL, NULL);
+            CreateWindow("BUTTON", "/", WS_VISIBLE | WS_CHILD, 175, 110, 40, 30, hwnd, (HMENU) 4, NULL, NULL);
             break;
-        
+            
         case WM_COMMAND:
-            GetWindowText(hEdit1, buffer1, sizeof(buffer1));
-            GetWindowText(hEdit2, buffer2, sizeof(buffer2));
-            num1 = atof(buffer1);
-            num2 = atof(buffer2);
-            
-            switch (LOWORD(wParam)) {
-                case ID_ADD:
-                    result = num1 + num2;
-                    break;
-                case ID_SUB:
-                    result = num1 - num2;
-                    break;
-                case ID_MUL:
-                    result = num1 * num2;
-                    break;
-                case ID_DIV:
-                    if (num2 != 0)
-                        result = num1 / num2;
-                    else
-                        MessageBox(hwnd, "Cannot divide by zero!", "Error", MB_OK | MB_ICONERROR);
-                    break;
-            }
-            
-            char resultText[256];
-            sprintf(resultText, "Result: %.2f", result);
-            SetWindowText(hResult, resultText);
-            break;
+        switch(LOWORD(wParam)) {
+            case 1: CalculateAndShowResult('+'); break;
+            case 2: CalculateAndShowResult('-'); break;
+            case 3: CalculateAndShowResult('*'); break;
+            case 4: CalculateAndShowResult('/'); break;
+        }
+        break;
         
         case WM_DESTROY:
             PostQuitMessage(0);
